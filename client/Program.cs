@@ -3,10 +3,15 @@ using System.Net.Http;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Text;
+using contract;
+using Grpc.Net.Client;
+using Grpc.Net.Client.Web;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using ProtoBuf.Grpc.Client;
 
 namespace client
 {
@@ -17,7 +22,20 @@ namespace client
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("#app");
 
+            // Setzt einen HttpClient auf, welcher auf die wwwroot directory zeigt
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+            
+            // builder.Services.AddScoped(services =>
+            // {
+            //     var channel =  GrpcChannel.ForAddress("https://localhost:6001");
+            //     return channel.CreateGrpcService<ILeMemeService>();
+            // });
+            builder.Services.AddSingleton(services => 
+            { 
+                var httpClient = new HttpClient(new GrpcWebHandler(GrpcWebMode.GrpcWeb, new HttpClientHandler())); 
+                var channel = GrpcChannel.ForAddress("https://localhost:6001", new GrpcChannelOptions { HttpClient = httpClient });
+                return channel;
+            });
 
             await builder.Build().RunAsync();
         }
