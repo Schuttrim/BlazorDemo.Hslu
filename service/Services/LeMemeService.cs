@@ -7,7 +7,7 @@ namespace service.Services
     {
         public Task<OneDoesNotSimplyData> OneDoesNotSimply()
         {
-            OneDoesNotSimplyData result = new () {Answer = "Touch my tralala"};
+            OneDoesNotSimplyData result = new () {Answer = "walk into Mordor."};
             return Task.FromResult(result); 
         }
     }
