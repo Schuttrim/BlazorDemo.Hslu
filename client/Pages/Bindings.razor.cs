@@ -2,6 +2,6 @@
 {
     public partial class Bindings
     {
-        private string Value { get; set; } = "Riis mit Boor";
+        private string Value { get; set; } = "Ryys mit Boor";
     }
 }

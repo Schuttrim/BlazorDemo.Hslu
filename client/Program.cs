@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using MudBlazor.Services;
 using ProtoBuf.Grpc.Client;
 
 namespace client
@@ -25,11 +26,9 @@ namespace client
             // Setzt einen HttpClient auf, welcher auf die wwwroot directory zeigt
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             
-            // builder.Services.AddScoped(services =>
-            // {
-            //     var channel =  GrpcChannel.ForAddress("https://localhost:6001");
-            //     return channel.CreateGrpcService<ILeMemeService>();
-            // });
+            builder.Services.AddMudServices();
+            
+            // Setzt einen GrpcChannel auf, welcher via GrpcWeb funktioniert (damit läuft grp auf HTTP /2)
             builder.Services.AddSingleton(services => 
             { 
                 var httpClient = new HttpClient(new GrpcWebHandler(GrpcWebMode.GrpcWeb, new HttpClientHandler())); 

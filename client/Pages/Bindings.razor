@@ -1,8 +1,12 @@
 ﻿@page "/bindings"
 
-<h3>Bindings</h3>
+<div style="max-width: 800px">
+    <h3>Bindings</h3>
+    <p>Value on Page: @Value</p>
+    
+    @* MudBlazor ist eine tolle Bibliothek, nativ in Blazor entwickelt: *@
+    @* check it out https://mudblazor.com/ *@
+    <MudTextField @bind-Value="Value" Label="Wert anpassen" Variant="Variant.Text" Class="mb-4"></MudTextField>
 
-<p>Value on Page: @Value</p>
-
-
-<MyComponent @bind-MyValue="Value" />
+    <MyComponent @bind-MyValue="Value" />
+</div>
